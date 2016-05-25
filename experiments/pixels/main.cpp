@@ -5,6 +5,7 @@ This program avoids double buffering -- there is only one drawing surface.
 */
 
 #include <iostream>
+#include <cassert>
 #include "SDL.h"
 #include "Util.h"
 
@@ -47,9 +48,9 @@ bool processInput() {
 
 int main(int argc, char* argv[]) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return 1;
-
-	window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, 0);
-	//window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 0, 0, SDL_WINDOW_FULLSCREEN);
+	SDL_DisplayMode display;
+	assert(SDL_GetCurrentDisplayMode(0, &display) == 0);
+	window = SDL_CreateWindow("Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, display.w, display.h, SDL_WINDOW_FULLSCREEN);
 	surface = SDL_GetWindowSurface(window);
 	renderer = SDL_CreateSoftwareRenderer(surface);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
